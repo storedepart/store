@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>ANITHA DAIRY PRODUCTS</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+ body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 20px;
+    }
+    
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    
+    th {
+      background-color: #7097eb;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #7097eb;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>ANITHA DAIRY PRODUCTS</h1>
+  <h3>"SY No 118-119, Pasumamula Village
+Hayath Nagar Mandal, R.R. Dist, 
+Telangana State- 501 505"
+  </h3>
+
+  <button onclick="addRow()">Add Row</button>
+
+  <h2>Data Table:</h2>
+  <table id="data-table">
+    <thead>
+      <tr>
+        <th>s.no</th>
+        <th>Item name</th>
+        <th>Total</th>
+        <th>Issued</th>
+        <th>Remaining</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    var dataCount = 0;
+    var columnHeaders = ["Item name", "Total", "Issued", "Remaining"];
+
+    // Function to add a new row to the table
+    function addRow() {
+      var dataTable = $("#data-table tbody");
+      var row = $("<tr>");
+
+      // Add s.no
+      row.append("<td>" + (++dataCount) + "</td>");
+
+      for (var i = 0; i < columnHeaders.length; i++) {
+        var dataCell = $("<td>");
+        var dataInput = $("<input type='text'>");
+        dataCell.append(dataInput);
+        row.append(dataCell);
+      }
+
+      dataTable.append(row);
+
+      // Set focus to the first input field of the new row
+      row.find("input[type='text']").first().focus();
+    }
+
+    // Function to delete a row
+    function deleteRow(button) {
+      var row = $(button).closest("tr");
+      row.remove();
+    }
+
+    // Function to calculate and update the Remaining value
+    function updateRemaining() {
+      var dataRows = $("#data-table tbody tr");
+
+      dataRows.each(function() {
+        var totalInput = $(this).find("input[type='text']").eq(1);
+        var issuedInput = $(this).find("input[type='text']").eq(2);
+        var remainingCell = $(this).find("td").eq(4);
+
+        var total = parseInt(totalInput.val()) || 0;
+        var issued = parseInt(issuedInput.val()) || 0;
+        var remaining = total - issued;
+
+        remainingCell.text(remaining);
+      });
+    }
+
+    // Event listener for Total and Issued input fields
+    $(document).on("input", "#data-table tbody input[type='text']", function() {
+      updateRemaining();
+    });
+  </script>
+</body>
+</html>
